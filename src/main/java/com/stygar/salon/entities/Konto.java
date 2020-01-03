@@ -14,7 +14,7 @@ public class Konto {
     @Id
     @Column(name="ID_konta")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(nullable=false,length=30)
     private String login;
@@ -26,10 +26,12 @@ public class Konto {
     private String email;
     
     @Column(nullable=false,length=30)
-    private String uprawnienia;
+    private String uprawnienia="user";
     
     @Column(nullable=false)
-    private Boolean aktywne = true;
+    private Boolean enabled = true;
+
+    
     
     @OneToMany(mappedBy = "konto") 
     private Set<Pracownik> pracownik;
@@ -38,23 +40,28 @@ public class Konto {
     private Set<Klient> klient;
     
     
-    protected Konto() {}
+    public Konto() {}
 
-    public Konto(String login,String haslo,String email,String uprawnienia,Boolean aktywne) {
+    public Konto(String login,String haslo,String email) {
        this.login =login;
        this.haslo = haslo;
        this.email = email;
-       this.uprawnienia = uprawnienia;
-       this.aktywne = aktywne;
-       
-       
+     
     }
     
-     public Integer getId() {
+    public Konto(Long id,String login,String haslo,String email) {
+       this.id = id;
+       this.login =login;
+       this.haslo = haslo;
+       this.email = email;
+     
+    }
+    
+     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,12 +97,12 @@ public class Konto {
         this.uprawnienia = uprawnienia;
     }
 
-    public Boolean getAktywne() {
-        return aktywne;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setAktywne(Boolean aktywne) {
-        this.aktywne = aktywne;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
     
     public Set<Pracownik> getPracownik() {

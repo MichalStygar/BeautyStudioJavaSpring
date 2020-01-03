@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>        
+        <title>Lista Kont</title>               
+    </head>
+    
+    <body >
+
+        <header>
+            <nav class="navbar static-top navbar-expand-lg navbar-light bg-info ">
+              <a class="navbar-brand" href="#"><img src="https://img.icons8.com/cotton/2x/facial-mask.png"  width="35" height="35" 
+                class="d-inline-block mr-1 align-bottom" alt=""> Salon.pl</a>
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                        <div class="navbar-nav ">
+                        <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link"  href="#">Pracownik</a>
+                        <a class="nav-item nav-link "  href="#">Gabinet</a>                       
+                        <a class="nav-item nav-link" href="#">Wyposażenie</a>
+                        <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
+                        <a class="nav-item nav-link"  href="#">Zabieg</a>
+                        <a class="nav-item nav-link"  href="#">Rezerwacja</a>
+                        <a class="nav-item nav-link"  href="#">Klient</a>  
+                        <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
+                        
+                        <form method="POST" th:action="@{/logout}">
+                        <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />
+                        </form>
+                        
+                        </div>
+                    </div>
+            </nav>
+        </header>
+    </body>
+    
+    
+    <main>
+        
+        
+        <div class="container mt-5 mb-2">                
+            <h4>   <strong th:text="${header}"/>  </h4>
+            <a class="btn btn-primary text-white" href="/konto/addkonto" role="button">Dodaj konto</a>
+                        
+        </div>
+              
+        
+       
+       
+           
+
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-bordered">          
+                    <thead>
+                        <tr  class="active">
+                            <th>Id</th>
+                            <th>Login</th>  
+                            <th>Hasło</th>  
+                            <th>E-mail</th>  
+                            <th>Opcje</th>
+                           
+                            
+                        </tr>
+                        
+                    </thead>
+                    <tbody>                       
+                        <tr th:each ="konto : ${kontoList}">               
+                            <td> <b  th:utext="${konto.id}">...</b> </td>
+                            <td> <b  th:utext="${konto.login}">...</b> </td>
+                            <td> <b  th:utext="${konto.haslo}">...</b> </td>
+                            <td> <b  th:utext="${konto.email}">...</b> </td>
+                            <td><a class="btn btn-primary" th:href="@{/konto/printallkonto/delete/} + ${konto.id}" role="button">Usuń</a>
+                            <a class="btn btn-primary" th:href="@{/konto/printallkonto/edycja/} + ${konto.id}" role="button">Edytuj</a></td>
+                            
+                            
+                                
+                            
+                        </tr>
+                    </tbody>          
+                </table>    
+            </div>
+            
+            
+            
+        </div>
+
+
+    </main>
+</html>
+
