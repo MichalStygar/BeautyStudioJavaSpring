@@ -14,22 +14,29 @@ public class Zabieg {
     @Id
     @Column(name="ID_zabiegu")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
    
     
-    @Column(nullable=false,length=30)
+    @Column(nullable=false,length=50)
     private String nazwa;
     
     @Column(nullable=false,length=4)
-    private String cena;
+    private double cena;
     
      @OneToMany(mappedBy = "zabieg") 
     private Set<GabinetZabieg> gabinetzabieg;
     
-    protected Zabieg(){}
+    public Zabieg(){}
     
-    public Zabieg(String nazwa,String cena){
+    public Zabieg(String nazwa,double cena){
+        this.nazwa = nazwa;
+        this.cena = cena;
+        
+    }
+    
+    public Zabieg(Long id,String nazwa,double cena){
+        this.id = id;
         this.nazwa = nazwa;
         this.cena = cena;
         
@@ -37,11 +44,11 @@ public class Zabieg {
     
     
     
-     public Integer getId() {
+     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,11 +60,11 @@ public class Zabieg {
         this.nazwa = nazwa;
     }
 
-    public String getCena() {
+    public double getCena() {
         return cena;
     }
 
-    public void setCena(String cena) {
+    public void setCena(double cena) {
         this.cena = cena;
     }
     
