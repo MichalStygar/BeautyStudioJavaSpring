@@ -1,6 +1,7 @@
 package com.stygar.salon.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -19,7 +20,7 @@ public class Pracownik {
     @Id
     @Column(name="ID_pracownika")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     
     
@@ -36,16 +37,19 @@ public class Pracownik {
     private  String adres;
     
     @Column(nullable=false,length=30)
-    private  LocalDate data_zatrudnienia;
+    private  LocalDate dataZatrudnienia;
     
     
-    
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="id_szef")
+    //(cascade={CascadeType.ALL})
+    @ManyToOne
+    @JoinColumn(name="szef",nullable=true)
     private Pracownik  szef;
+
+    
     
     @OneToMany(mappedBy="szef")
     private Set<Pracownik> szeff = new HashSet<Pracownik>();
+    
     
     
     @OneToMany(mappedBy = "pracownik") 
@@ -60,34 +64,71 @@ public class Pracownik {
     
    
     
-    protected Pracownik() {}
+    public Pracownik() {}
 
-    public Pracownik(String imie,String nazwisko,String stanowisko,String adres,LocalDate data_zatrudnienia,Konto konto) {
+    public Pracownik(String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto) {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.stanowisko = stanowisko;
         this.adres = adres;
-        this.data_zatrudnienia = data_zatrudnienia;
+        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
+        else{
+            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
         this.konto = konto;
             
     }
     
-     public Pracownik(String imie,String nazwisko,String stanowisko,String adres,LocalDate data_zatrudnienia,Pracownik  szef,Konto konto) {
+     public Pracownik(String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto,Pracownik  szef) {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.stanowisko = stanowisko;
         this.adres = adres;
-        this.data_zatrudnienia = data_zatrudnienia;
+        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
+        else{
+            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
+        
+        this.konto = konto;
         this.szef = szef;
+            
+    }
+     
+     public Pracownik(Long id,String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto) {
+        this.id = id;
+         this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.stanowisko = stanowisko;
+        this.adres = adres;
+        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
+        else{
+            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
         this.konto = konto;
             
     }
     
-    public Integer getId() {
+     public Pracownik(Long id,String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto,Pracownik  szef) {
+        this.id = id;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        this.stanowisko = stanowisko;
+        this.adres = adres;
+        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
+        else{
+            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
+        
+        this.konto = konto;
+        this.szef = szef;
+            
+    }
+    
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -123,12 +164,17 @@ public class Pracownik {
         this.adres = adres;
     }
 
-    public LocalDate getData_zatrudnienia() {
-        return data_zatrudnienia;
+    public String getDataZatrudnienia() {       
+        if(dataZatrudnienia !=null){
+            return dataZatrudnienia.toString();
+        }else{
+            return "";
+        }
     }
 
-    public void setData_zatrudnienia(LocalDate data_zatrudnienia) {
-        this.data_zatrudnienia = data_zatrudnienia;
+    public void setDataZatrudnienia(String dataZatrudnienia) {
+        LocalDate dataTime = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
+        this.dataZatrudnienia = dataTime;
     }
 
   
@@ -156,7 +202,14 @@ public class Pracownik {
         this.rezerwacja = rezerwacja;
     }
     
-    
+    public Pracownik getSzef() {
+        return szef;
+    }
+
+    public void setSzef(Pracownik szef) {
+        this.szef = szef;
+        
+    }
     
     
     
