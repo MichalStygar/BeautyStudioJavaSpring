@@ -17,7 +17,7 @@ public class Klient {
     @Id
     @Column(name="ID_klienta")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
    
     
@@ -29,7 +29,7 @@ public class Klient {
     private String nazwisko;
     
     @Column(nullable=false,length=9)
-    private String telefon;
+    private Integer telefon;
     
     @ManyToOne 
     @JoinColumn(name="id_konta", nullable=false)
@@ -39,21 +39,36 @@ public class Klient {
     private Set<Rezerwacja> rezerwacja;
     
     
-    protected Klient() {}
+    public Klient() {}
 
     public Klient(String imie,String nazwisko,String telefon,Konto konto) {
         this.imie = imie;
         this.nazwisko = nazwisko;
-        this.telefon = telefon;
+        if(telefon == ""){ this.telefon = null;}
+        else{
+            this.telefon = Integer.parseInt(telefon);
+        }
         this.konto = konto;
         
     }
     
-     public Integer getId() {
+    public Klient(Long id,String imie,String nazwisko,String telefon,Konto konto) {
+        this.id = id;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+        if(telefon == ""){ this.telefon = null;}
+        else{
+            this.telefon = Integer.parseInt(telefon);
+        }
+        this.konto = konto;
+        
+    }
+    
+     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,11 +89,16 @@ public class Klient {
     }
 
     public String getTelefon() {
-        return telefon;
+        if (telefon==null)
+            return "";
+        else return String.valueOf(telefon);
     }
 
     public void setTelefon(String telefon) {
-        this.telefon = telefon;
+        if(telefon == "")
+            this.telefon = null;
+        else
+        this.telefon = Integer.parseInt(telefon);
     }
     
      public Konto getKonto() {

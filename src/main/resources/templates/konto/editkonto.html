@@ -24,7 +24,7 @@
                         <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
                         <a class="nav-item nav-link"  href="#">Zabieg</a>
                         <a class="nav-item nav-link"  href="#">Rezerwacja</a>
-                        <a class="nav-item nav-link"  href="#">Klient</a>  
+                        <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
                         <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
                         
                         <form method="POST" th:action="@{/logout}">
@@ -42,7 +42,7 @@
         
         <div class="col-md-12">
             <section class="jumpers" style="text-align: center;">
-                <h2 class="mt-5"> Dodawanie klienta:</h2>
+                <h2 class="mt-5"> Edycja konta:</h2>
             </section>
             
     <form   method="POST" th:object="${konto}">

@@ -42,37 +42,47 @@
         
         <div class="col-md-12">
             <section class="jumpers" style="text-align: center;">
-                <h2 class="mt-5"> Dodawanie konta:</h2>
+                <h2 class="mt-5"> Dodawanie klienta:</h2>
             </section>
             
-    <form  th:action="@{/konto/addkonto}"  method="POST" th:object="${konto}">
+    <form  th:action="@{/klient/addklient}"  method="POST" th:object="${klient}">
 
         <div class="col-md-4 offset-md-4 mb-2">
             <div class="form-group" style="margin-bottom: 0">    
-                <label  class="mt-2"> Podaj login: </label>
+                <label  class="mt-2"> Podaj imię: </label>
             
-                <input type="text" class="form-control" th:field="${konto.login}" value=""/>           
+                <input type="text" class="form-control" th:field="${klient.imie}" value=""/>           
             </div>   
         </div>   
 
        
         <div class="col-md-4 offset-md-4 mb-2">
             <div class="form-group" style="margin-bottom: 0">    
-                <label> Podaj hasło: </label>
+                <label> Podaj nazwisko: </label>
                 <br/>
-                <input type="text" class="form-control" th:field="${konto.haslo}" value=""/>           
+                <input type="text" class="form-control" th:field="${klient.nazwisko}" value=""/>           
             </div>       
         </div>
         <br/>
         
         <div class="col-md-4 offset-md-4 mb-2">
             <div class="form-group" style="margin-bottom: 0">    
-                <label> Podaj email: </label>
+                <label> Podaj telefon: </label>
                 <br/>
-                <input type="text" class="form-control" th:field="${konto.email}" value=""/>           
+                <input type="text" class="form-control" th:field="${klient.telefon}" value=""/>           
             </div>       
         </div>    
-        <br/>
+        
+        <div class="col-md-4 offset-md-4 mb-2">
+           <div class="form-group">    
+                <label> Podaj id konta: </label>
+                <br/>
+                <select class="custom-select" name="konto">
+                    <option th:each="konto : ${kontoList}"  th:text="${konto.id}"></option>
+                    
+                </select>            
+            </div>
+        </div>
         
               
 

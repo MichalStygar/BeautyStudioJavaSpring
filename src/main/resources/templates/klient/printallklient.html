@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>        
-        <title>Lista Kont</title>               
+        <title>Lista klientow</title>               
     </head>
     
     <body >
@@ -25,7 +25,7 @@
                         <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
                         <a class="nav-item nav-link"  href="#">Zabieg</a>
                         <a class="nav-item nav-link"  href="#">Rezerwacja</a>
-                        <a class="nav-item nav-link"  href="/klient/printallklient">Klient</a>  
+                        <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
                         <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
                         
                         <form method="POST" th:action="@{/logout}">
@@ -44,7 +44,7 @@
         
         <div class="container mt-5 mb-2">                
             <h4>   <strong th:text="${header}"/>  </h4>
-            <a class="btn btn-primary text-white" href="/konto/addkonto" role="button">Dodaj konto</a>
+            <a class="btn btn-primary text-white" href="/klient/addklient" role="button">Dodaj konto</a>
                         
         </div>
               
@@ -59,9 +59,10 @@
                     <thead>
                         <tr  class="active">
                             <th>Id</th>
-                            <th>Login</th>  
-                            <th>Hasło</th>  
-                            <th>E-mail</th>  
+                            <th>Imie</th>  
+                            <th>Nazwisko</th>  
+                            <th>Telefon</th>
+                            <th>Id_konta</th>
                             <th>Opcje</th>
                            
                             
@@ -69,13 +70,14 @@
                         
                     </thead>
                     <tbody>                       
-                        <tr th:each ="konto : ${kontoList}">               
-                            <td> <b  th:utext="${konto.id}">...</b> </td>
-                            <td> <b  th:utext="${konto.login}">...</b> </td>
-                            <td> <b  th:utext="${konto.haslo}">...</b> </td>
-                            <td> <b  th:utext="${konto.email}">...</b> </td>
-                            <td><a class="btn btn-primary" th:href="@{/konto/printallkonto/delete/} + ${konto.id}" role="button">Usuń</a>
-                            <a class="btn btn-primary" th:href="@{/konto/printallkonto/edycja/} + ${konto.id}" role="button">Edytuj</a></td>
+                        <tr th:each ="klient : ${klientList}">               
+                            <td> <b  th:utext="${klient.id}">...</b> </td>
+                            <td> <b  th:utext="${klient.imie}">...</b> </td>
+                            <td> <b  th:utext="${klient.nazwisko}">...</b> </td>
+                            <td> <b  th:utext="${klient.telefon}">...</b> </td>
+                            <td > <b  th:text="${klient.konto.id}">...</b> </td>
+                            <td><a class="btn btn-primary" th:href="@{/klient/printallklient/delete/} + ${klient.id}" role="button">Usuń</a>
+                            <a class="btn btn-primary" th:href="@{/klient/printallklient/edycja/} + ${klient.id}" role="button">Edytuj</a></td>
                             
                             
                                 
