@@ -16,7 +16,7 @@ public class GabinetZabieg {
     @Id
     @Column(name="ID_zabGab")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     
     
@@ -39,11 +39,18 @@ public class GabinetZabieg {
         
     }
     
-    public Integer getId() {
+    public GabinetZabieg(Long id,Zabieg zabieg,Gabinet gabinet) {
+        this.id = id;
+        this.zabieg = zabieg;
+        this.gabinet = gabinet;
+        
+    }
+    
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
