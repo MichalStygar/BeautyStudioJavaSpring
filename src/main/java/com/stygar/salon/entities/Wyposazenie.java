@@ -2,6 +2,7 @@
 package com.stygar.salon.entities;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ public class Wyposazenie {
     @Id
     @Column(name="ID_wyposazenia")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     
     @Column(nullable=false,length=30)
@@ -26,7 +27,7 @@ public class Wyposazenie {
     private double cena;
     
     @Column(nullable=false,length=10)
-    private LocalDate data_zakupu;
+    private LocalDate dataZakupu;
     
     
     @ManyToOne 
@@ -36,21 +37,36 @@ public class Wyposazenie {
     
     
     
-     protected Wyposazenie() {}
+     public Wyposazenie() {}
 
-    public Wyposazenie(String nazwa,double cena,LocalDate data_zakupu,Gabinet gabinet) {
+    public Wyposazenie(String nazwa,double cena,String dataZakupu,Gabinet gabinet) {
        this.nazwa = nazwa;
        this.cena = cena;
-       this.data_zakupu = data_zakupu;
+       if(dataZakupu == ""){ this.dataZakupu = null;}
+        else{
+            this.dataZakupu = LocalDate.parse(dataZakupu,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
        this.gabinet = gabinet;
        
     }
     
-    public Integer getId() {
+    public Wyposazenie(Long id,String nazwa,double cena,String dataZakupu,Gabinet gabinet) {
+       this.id = id;
+        this.nazwa = nazwa;
+       this.cena = cena;
+       if(dataZakupu == ""){ this.dataZakupu = null;}
+        else{
+            this.dataZakupu = LocalDate.parse(dataZakupu,DateTimeFormatter.ISO_LOCAL_DATE);
+        }
+       this.gabinet = gabinet;
+       
+    }
+    
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -70,12 +86,17 @@ public class Wyposazenie {
         this.cena = cena;
     }
 
-    public LocalDate getData_zakupu() {
-        return data_zakupu;
+    public String getDataZakupu() {
+        if(dataZakupu !=null){
+            return dataZakupu.toString();
+        }else{
+            return "";
+        }
     }
 
-    public void setData_zakupu(LocalDate data_zakupu) {
-        this.data_zakupu = data_zakupu;
+    public void setDataZakupu(String dataZakupu) {
+        LocalDate dataTime = LocalDate.parse(dataZakupu,DateTimeFormatter.ISO_LOCAL_DATE);
+        this.dataZakupu = dataTime;
     }
     
     public Gabinet getGabinet() {

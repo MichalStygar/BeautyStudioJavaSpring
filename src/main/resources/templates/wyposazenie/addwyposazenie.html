@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodawanie osoby do bazy</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+</head>
+    
+    <body >
+
+        <header>
+            <nav class="navbar static-top navbar-expand-lg navbar-light bg-info ">
+              <a class="navbar-brand" href="#"><img src="https://img.icons8.com/cotton/2x/facial-mask.png"  width="35" height="35" 
+                class="d-inline-block mr-1 align-bottom" alt=""> Salon.pl</a>
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                        <div class="navbar-nav ">
+                        <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link"  href="/pracownik/printallpracownik">Pracownik</a>
+                        <a class="nav-item nav-link "  href="#">Gabinet</a>                       
+                        <a class="nav-item nav-link" href="/wyposazenie/printallwyposazenie">Wyposażenie</a>
+                        <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
+                        <a class="nav-item nav-link"  href="#">Zabieg</a>
+                        <a class="nav-item nav-link"  href="#">Rezerwacja</a>
+                        <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
+                        <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
+                        
+                        <form method="POST" th:action="@{/logout}">
+                        <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />
+                        </form>
+                        
+                        </div>
+                    </div>
+            </nav>
+        </header>
+    </body>
+    
+    <main>
+        <div class="container">
+
+            <div class="col-md-12">
+                <section class="jumpers" style="text-align: center;">   
+                     <h2 class="mt-5"> Dodawanie wyposażenia:</h2>
+                </section>  
+        <form th:action="@{/wyposazenie/addwyposazenie}" method="POST" th:object="${wyposazenie}">
+
+            <div class="col-md-4 offset-md-4 mb-2">
+            <div class="form-group" style="margin-bottom: 0">    
+                <label  class="mt-2 "> Podaj nazwę: </label>
+
+                <input type="text" class="form-control" th:field="${wyposazenie.nazwa}" value=""/>            
+            </div>   
+             </div>   
+
+
+            <div class="col-md-4 offset-md-4 mb-2">
+                <div class="form-group" style="margin-bottom: 0">    
+                    <label> Podaj cenę: </label>
+                    <br/>
+                    <input type="text" class="form-control" th:field="${wyposazenie.cena}" value=""/>            
+                </div> 
+            </div>
+
+           
+
+            <div class="col-md-4 offset-md-4 mb-2">
+               <div class="form-group">    
+                    <label> Podaj datę zakupu: </label>
+                    <br/>
+                    <input type="date" class="form-control" th:field="${wyposazenie.dataZakupu}" value=""/>            
+                </div>
+            </div>
+
+           <div class="col-md-4 offset-md-4 mb-2">
+               <div class="form-group">    
+                    <label> Podaj id gabinetu: </label>
+                    <br/>
+                    <select class="custom-select" name="gabinet">
+                        <option th:each="gabinet : ${gabinetList}"  th:text="${gabinet.id}"></option>
+
+                    </select>            
+                </div>
+            </div> 
+
+           
+
+            <section class="jumpers" style="text-align: center;"> 
+                <input type="submit" class="btn btn-primary" value="Dodaj" />
+            </section>
+            <br/>
+
+
+
+        </form>
+
+        </div>
+       </div>
+
+    </main>
+</html>
