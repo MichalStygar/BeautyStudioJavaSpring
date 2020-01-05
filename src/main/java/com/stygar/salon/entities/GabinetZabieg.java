@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class GabinetZabieg {
     @Id
-    @Column(name="ID_zabGab")
+    @Column(name="ID_gabinetZabieg")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 

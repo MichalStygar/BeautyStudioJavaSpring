@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >    
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
-        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>        
-        <title>Lista klientow</title>               
-    </head>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodawanie osoby do bazy</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+</head>
     
     <body >
 
@@ -19,12 +18,12 @@
                     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                         <div class="navbar-nav ">
                         <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link"  href="#">Pracownik</a>
+                        <a class="nav-item nav-link"  href="/pracownik/printallpracownik">Pracownik</a>
                         <a class="nav-item nav-link "  href="#">Gabinet</a>                       
                         <a class="nav-item nav-link" href="#">Wyposażenie</a>
                         <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
                         <a class="nav-item nav-link"  href="#">Zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Rezerwacja</a>
+                        <a class="nav-item nav-link"  href="/rezerwacja/printallrezerwacja">Rezerwacja</a>
                         <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
                         <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
                         
@@ -38,19 +37,12 @@
         </header>
     </body>
     
-    
     <main>
-        
-        
         <div class="container mt-5 mb-2">                
             <h4>   <strong th:text="${header}"/>  </h4>
-            <a class="btn btn-primary text-white" href="/klient/addklient" role="button">Dodaj klienta</a>
+            <a class="btn btn-primary text-white" href="/rezerwacja/addrezerwacja" role="button">Dodaj rezerwację</a>
                         
         </div>
-              
-        
-       
-       
            
 
         <div class="container">
@@ -59,28 +51,24 @@
                     <thead>
                         <tr  class="active">
                             <th>Id</th>
-                            <th>Imie</th>  
-                            <th>Nazwisko</th>  
-                            <th>Telefon</th>
-                            <th>Id_konta</th>
+                            <th>Id_klienta</th> 
+                            <th>Id_pracownika</th> 
+                            <th>Id_gabinet-zabieg</th>  
+                            <th>Data</th> 
                             <th>Opcje</th>
-                           
                             
                         </tr>
                         
                     </thead>
                     <tbody>                       
-                        <tr th:each ="klient : ${klientList}">               
-                            <td> <b  th:utext="${klient.id}">...</b> </td>
-                            <td> <b  th:utext="${klient.imie}">...</b> </td>
-                            <td> <b  th:utext="${klient.nazwisko}">...</b> </td>
-                            <td> <b  th:utext="${klient.telefon}">...</b> </td>
-                            <td > <b  th:text="${klient.konto.id}">...</b> </td>
-                            <td><a class="btn btn-primary" th:href="@{/klient/printallklient/delete/} + ${klient.id}" role="button">Usuń</a>
-                            <a class="btn btn-primary" th:href="@{/klient/printallklient/edycja/} + ${klient.id}" role="button">Edytuj</a></td>
-                            
-                            
-                                
+                        <tr th:each ="rezerwacja : ${rezerwacjaList}" >               
+                            <td> <b  th:utext="${rezerwacja.id}">...</b> </td>
+                             <td > <b  th:text="${rezerwacja.klient.id}" >...</b> </td>
+                             <td > <b    th:each ="pracownik : ${rezerwacja.pracownik}" th:text="${pracownik.id}">...</b> </td>
+                             <td > <b    th:each ="gabinetZabieg : ${rezerwacja.gabinetZabieg}" th:text="${gabinetZabieg.id}">...</b> </td>
+                            <td > <b  th:text="${rezerwacja.dataGodzinaRezerwacji}" >...</b> </td>
+                            <td><a class="btn btn-primary" th:href="@{/rezerwacja/printallrezerwacja/delete/} + ${rezerwacja.id}" role="button">Usuń</a>
+                            <a class="btn btn-primary" th:href="@{/rezerwacja/printallrezerwacja/edycja/} + ${rezerwacja.id}" role="button">Edytuj</a></td>
                             
                         </tr>
                     </tbody>          
@@ -94,4 +82,3 @@
 
     </main>
 </html>
-

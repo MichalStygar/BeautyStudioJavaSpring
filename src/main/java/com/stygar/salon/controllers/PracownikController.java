@@ -55,20 +55,13 @@ public class PracownikController {
         Long idp = pracownik.getId();
         Konto kont = kontoRepository.findById(id).get();
        
-        if(idp==null){
-            
-            
-            System.out.println("idp=="+idp);
+        if(idp==null){                                  
             pracownikRepository.save(new Pracownik(imie,nazwisko,adres,stanowisko,data,kont));
-            System.out.println("adres 1 "+adres);
-            System.out.println("stanowisko 1 "+stanowisko);
-        }else{
-            Pracownik szef = pracownikRepository.findById(idp).get();       
-            System.out.println("ro jest "+szef.getId());
             
+        }else{
+            Pracownik szef = pracownikRepository.findById(idp).get();                  
             pracownikRepository.save(new Pracownik(imie,nazwisko,adres,stanowisko,data,kont,szef));
-            System.out.println("adres 2 "+adres);
-            System.out.println("stanowisko 2 "+stanowisko);
+            
         }
         
         
@@ -131,8 +124,7 @@ public class PracownikController {
         }else{
 
             pracownikRepository.save(new Pracownik(id,imie,nazwisko,adres,stanowisko,data,konto,idp));
-            System.out.println("adres 2 "+adres);
-            System.out.println("stanowisko 2 "+stanowisko);
+            
         }
        
         return "redirect:/pracownik/printallpracownik";

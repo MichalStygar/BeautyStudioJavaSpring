@@ -18,7 +18,7 @@ public class Rezerwacja {
     @Id
     @Column(name="ID_rezerwacji")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
    
     
@@ -34,16 +34,38 @@ public class Rezerwacja {
     private Pracownik pracownik;
     
     @ManyToOne 
-    @JoinColumn(name="id_gabZab", nullable=false)
+    @JoinColumn(name="id_gabinetZabieg", nullable=true)
     private GabinetZabieg gabinetzabieg;
 
     
     
-    protected Rezerwacja() {}
+    public Rezerwacja() {}
 
-    public Rezerwacja(Klient klient,Pracownik pracownik,GabinetZabieg gabinetzabieg,String dataGodzinaRezerwacji ) {
+    public Rezerwacja(Klient klient,GabinetZabieg gabinetzabieg,String dataGodzinaRezerwacji ) {
+        this.klient = klient;      
+        this.gabinetzabieg = gabinetzabieg;
+        if(dataGodzinaRezerwacji == ""){ this.dataGodzinaRezerwacji = null;}
+        else{
+            this.dataGodzinaRezerwacji = LocalDateTime.parse(dataGodzinaRezerwacji,DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+        
+    }
+    
+    public Rezerwacja(Klient klient,Pracownik pracownik,String dataGodzinaRezerwacji ) {
         this.klient = klient;
         this.pracownik = pracownik;
+        if(dataGodzinaRezerwacji == ""){ this.dataGodzinaRezerwacji = null;}
+        else{
+            this.dataGodzinaRezerwacji = LocalDateTime.parse(dataGodzinaRezerwacji,DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+        
+        
+    }
+    
+    
+    public Rezerwacja(Long id,Klient klient,GabinetZabieg gabinetzabieg,String dataGodzinaRezerwacji ) {
+        this.id = id;
+        this.klient = klient;      
         this.gabinetzabieg = gabinetzabieg;
         if(dataGodzinaRezerwacji == ""){ this.dataGodzinaRezerwacji = null;}
         else{
@@ -52,9 +74,10 @@ public class Rezerwacja {
         
     }
     
-    public Rezerwacja(Klient klient,GabinetZabieg gabinetzabieg,String dataGodzinaRezerwacji ) {
+    public Rezerwacja(Long id,Klient klient,Pracownik pracownik,String dataGodzinaRezerwacji ) {
+        this.id = id;
         this.klient = klient;
-        this.gabinetzabieg = gabinetzabieg;
+        this.pracownik = pracownik;
         if(dataGodzinaRezerwacji == ""){ this.dataGodzinaRezerwacji = null;}
         else{
             this.dataGodzinaRezerwacji = LocalDateTime.parse(dataGodzinaRezerwacji,DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -63,11 +86,11 @@ public class Rezerwacja {
         
     }
     
-     public Integer getId() {
+     public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

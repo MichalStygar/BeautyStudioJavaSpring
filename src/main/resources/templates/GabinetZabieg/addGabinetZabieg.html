@@ -52,7 +52,6 @@
                     <label> Podaj id gabientu: </label>
                     <br/>
                     <select class="custom-select" name="gabinet">
-                        <option ></option>
                         <option th:each="gabinet : ${gabinetList}"  th:text="${gabinet.id}"></option>
 
                     </select>            
@@ -65,7 +64,6 @@
                     <label> Podaj id zabiegu: </label>
                     <br/>
                     <select class="custom-select" name="zabieg">
-                        <option ></option>
                         <option th:each="zabieg : ${zabiegList}"  th:text="${zabieg.id}"></option>
 
                     </select>            
