@@ -19,7 +19,7 @@ public class Konto {
     @Column(nullable=false,length=30)
     private String login;
     
-    @Column(nullable=false,length=30)
+    @Column(nullable=false,length=60)
     private String haslo;
     
     @Column(nullable=false,length=30)

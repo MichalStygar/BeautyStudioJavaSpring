@@ -28,9 +28,9 @@ public class KlientController {
     @RequestMapping("/")
     public String home(){
         
-       // return "/page";
+        return "/page";
     //   return "home";
-    return "/home/salon";
+    //return "/home/salon";
        
     }
     

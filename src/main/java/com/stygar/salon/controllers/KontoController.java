@@ -5,6 +5,7 @@ import com.stygar.salon.entities.Konto;
 import com.stygar.salon.repositories.KontoRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +36,9 @@ public class KontoController {
         String login = konto.getLogin();
         String haslo = konto.getHaslo();
         String email = konto.getEmail();
-      // String encoded = new BCryptPasswordEncoder().encode(haslo);
+       String encoded = new BCryptPasswordEncoder().encode(haslo);
      
-        kontoRepository.save(new Konto(login,haslo,email));
+        kontoRepository.save(new Konto(login,encoded,email));
         
         
         return "redirect:/konto/printallkonto";
