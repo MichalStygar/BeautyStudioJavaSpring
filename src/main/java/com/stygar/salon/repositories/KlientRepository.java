@@ -14,6 +14,8 @@ public interface KlientRepository extends JpaRepository<Klient, Long>{
 
     public List<Klient> findByKonto(Konto id);
 
+    public Klient getById(Konto idko);
+
     
 
    

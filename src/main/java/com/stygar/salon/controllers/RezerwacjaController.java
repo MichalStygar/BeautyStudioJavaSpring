@@ -178,8 +178,11 @@ public class RezerwacjaController {
     }
     
     @RequestMapping(value = "/rezerwacja/printallrezerwacja/edycja/{id}", method = RequestMethod.POST)
-    public String updateKonto(@PathVariable("id")Long id,@ModelAttribute(name = "rezerwacja")Rezerwacja rezerwacja,Model model){
-  
+    public String updateRezerwacja(@PathVariable("id")Long id,@ModelAttribute(name = "rezerwacja")Rezerwacja rezerwacja,Principal principal,Model model){
+        String login = principal.getName();
+        Konto idko = kontoRepository.getByLogin(login);
+        Klient idkl =klientRepository.getByKonto(idko);
+       
         String data = rezerwacja.getDataGodzinaRezerwacji();
         
         Klient klie = rezerwacja.getKlient();
@@ -187,9 +190,24 @@ public class RezerwacjaController {
         GabinetZabieg gabzab = rezerwacja.getGabinetZabieg();
         
         
-        
+        if(idko.getUprawnienia().equals("user")){
        
         if(prac==null)
+        {
+            
+            
+            rezerwacjaRepository.save(new Rezerwacja(id,idkl,gabzab,data));
+           
+            
+        }else{
+            
+            rezerwacjaRepository.save(new Rezerwacja(id,idkl,prac,data));
+            
+          
+            
+        }
+        }else{
+           if(prac==null)
         {
             
             
@@ -202,8 +220,9 @@ public class RezerwacjaController {
             
           
             
+        } 
         }
-       
+        
         return "redirect:/rezerwacja/printallrezerwacja";
         
     }

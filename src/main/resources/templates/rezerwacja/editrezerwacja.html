@@ -47,7 +47,7 @@
                 </section>  
         <form th:action="@{/rezerwacja/printallrezerwacja/edycja/{path}(path=${rezerwacja.id})}" method="POST" th:object="${rezerwacja}">
 
-            <div class="col-md-4 offset-md-4 mb-2">
+            <div class="col-md-4 offset-md-4 mb-2" sec:authorize="hasAuthority('admin')">
                <div class="form-group">    
                     <label> Podaj id klienta: </label>
                     <br/>

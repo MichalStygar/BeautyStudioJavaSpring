@@ -23,6 +23,8 @@ public class KlientController {
     @Autowired
     KlientRepository klientRepository;
     
+    
+    
     @Autowired
     KontoRepository kontoRepository;
     
@@ -119,14 +121,20 @@ public class KlientController {
     }
     
     @RequestMapping(value = "/klient/printallklient/edycja/{id}", method = RequestMethod.POST)
-    public String updateKonto(@PathVariable("id")Long id,@ModelAttribute(name = "klient")Klient klient,Model model){
-  
+    public String updateKonto(@PathVariable("id")Long id,@ModelAttribute(name = "klient")Klient klient,Principal principal,Model model){
+        String login = principal.getName();
+        Konto idko = kontoRepository.getByLogin(login);
+        
         String imie = klient.getImie();
         String nazwisko = klient.getNazwisko();
         String telefon = klient.getTelefon();        
         Konto konto = klient.getKonto();
-        
-        klientRepository.save(new Klient(id,imie,nazwisko,telefon,konto));
+       
+        if(idko.getUprawnienia().equals("user")){
+        klientRepository.save(new Klient(id,imie,nazwisko,telefon,idko));
+        }else{
+            klientRepository.save(new Klient(id,imie,nazwisko,telefon,konto));
+        }
        
         return "redirect:/klient/printallklient";
         
