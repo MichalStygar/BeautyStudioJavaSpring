@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface ZabiegRepository extends JpaRepository<Zabieg, Long>{
+
+    public Zabieg getByNazwa(Long idzab);
     
 }

@@ -5,5 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface GabinetZabiegRepository extends JpaRepository<GabinetZabieg, Long>{
+
+    public GabinetZabieg getById(Long idzab);
+
+    public GabinetZabieg findByZabiegId(Long idzab);
     
 }

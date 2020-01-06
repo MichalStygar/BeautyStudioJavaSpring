@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Dodawanie osoby do bazy</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,15 +17,16 @@
                 </button>
                     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                         <div class="navbar-nav ">
-                        <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link"  href="/pracownik/printallpracownik">Pracownik</a>
-                        <a class="nav-item nav-link "  href="#">Gabinet</a>                       
-                        <a class="nav-item nav-link" href="#">Wyposażenie</a>
-                        <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Zabieg</a>
-                        <a class="nav-item nav-link"  href="/rezerwacja/printallrezerwacja">Rezerwacja</a>
-                        <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
-                        <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
+                        <a class="nav-item nav-link " href="/home/salon">Strona główna <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('user')" href="/pracownik/printallpracownik">Pracownik</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/gabinet/printallgabinet">Gabinet</a>                       
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/wyposazenie/printallwyposazenie">Wyposażenie</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/GabinetZabieg/printallGabinetZabieg">Gabinet_zabieg</a>
+                        <a class="nav-item nav-link "  href="/zabieg/printallzabieg">Zabieg</a>
+                        <a class="nav-item nav-link active"  href="/rezerwacja/printallrezerwacja">Rezerwacja</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/klient/printallklient">Klient</a>
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('user')" href="/klient/printallklient">Profil</a> 
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin')" href="/konto/printallkonto">Konto</a>
                         
                         <form method="POST" th:action="@{/logout}">
                         <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />
@@ -46,7 +47,7 @@
                 </section>  
         <form th:action="@{/rezerwacja/addrezerwacja}" method="POST" th:object="${rezerwacja}">
 
-            <div class="col-md-4 offset-md-4 mb-2">
+            <div class="col-md-4 offset-md-4 mb-2" sec:authorize="hasAuthority('admin')">
                <div class="form-group">    
                     <label> Podaj id klienta: </label>
                     <br/>
@@ -55,11 +56,13 @@
 
                     </select>            
                 </div>
-            </div> 
-            <br>
-                <div class="col-md-4 offset-md-4 mb-2">
+            </div>
+            
+               
+                <div class="col-md-4 offset-md-4 mb-2" sec:authorize="hasAuthority('admin') or hasAuthority('user')">
                <div class="form-group">    
-                    <label> Podaj id pracownika: </label>
+                    <label sec:authorize="hasAuthority('admin')"> Podaj id pracownika: </label>
+                    <label sec:authorize="hasAuthority('user')"> Podaj numer pracownika: </label>
                     <br/>
                     <select class="custom-select" name="pracownik">
                         <option ></option>
@@ -70,17 +73,20 @@
             </div>
                 
                 <br>
-                <div class="col-md-4 offset-md-4 mb-2">
+             
+              <div class="col-md-4 offset-md-4 mb-2">
                <div class="form-group">    
-                    <label> Podaj id gabinet-zabieg: </label>
+                    <label sec:authorize="hasAuthority('admin')"> Podaj id zabiegu: </label>
+                    <label sec:authorize="hasAuthority('user')"> Podaj numer zabiegu: </label>
                     <br/>
-                    <select class="custom-select" name="gabinetZabieg">
+                    <select class="custom-select" name="zabieg">
                         <option ></option>
-                        <option th:each="gabinetZabieg : ${gabinetZabiegList}"  th:text="${gabinetZabieg.id}"></option>
+                        <option th:each="zabieg : ${zabiegList}"  th:text="${zabieg.id}"></option>
 
                     </select>            
                 </div>
             </div>
+              
 
 
             <div class="col-md-4 offset-md-4 mb-2">
@@ -90,8 +96,9 @@
                 <input type="datetime-local" class="form-control" th:field="${rezerwacja.dataGodzinaRezerwacji}" value=""/>           
             </div>       
         </div>
-
-           
+            <br>
+            
+            
 
 
 

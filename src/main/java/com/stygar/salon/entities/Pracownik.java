@@ -40,17 +40,7 @@ public class Pracownik {
     private  LocalDate dataZatrudnienia;
     
     
-    //(cascade={CascadeType.ALL})
-    @ManyToOne
-    @JoinColumn(name="szef",nullable=true)
-    private Pracownik  szef;
-
-    
-    
-    @OneToMany(mappedBy="szef")
-    private Set<Pracownik> szeff = new HashSet<Pracownik>();
-    
-    
+   
     
     @OneToMany(mappedBy = "pracownik") 
     private Set<Gabinet> gabinet;
@@ -79,20 +69,7 @@ public class Pracownik {
             
     }
     
-     public Pracownik(String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto,Pracownik  szef) {
-        this.imie = imie;
-        this.nazwisko = nazwisko;
-        this.stanowisko = stanowisko;
-        this.adres = adres;
-        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
-        else{
-            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
-        }
-        
-        this.konto = konto;
-        this.szef = szef;
-            
-    }
+     
      
      public Pracownik(Long id,String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto) {
         this.id = id;
@@ -108,21 +85,7 @@ public class Pracownik {
             
     }
     
-     public Pracownik(Long id,String imie,String nazwisko,String stanowisko,String adres,String dataZatrudnienia,Konto konto,Pracownik  szef) {
-        this.id = id;
-        this.imie = imie;
-        this.nazwisko = nazwisko;
-        this.stanowisko = stanowisko;
-        this.adres = adres;
-        if(dataZatrudnienia == ""){ this.dataZatrudnienia = null;}
-        else{
-            this.dataZatrudnienia = LocalDate.parse(dataZatrudnienia,DateTimeFormatter.ISO_LOCAL_DATE);
-        }
-        
-        this.konto = konto;
-        this.szef = szef;
-            
-    }
+   
     
     public Long getId() {
         return id;
@@ -202,14 +165,7 @@ public class Pracownik {
         this.rezerwacja = rezerwacja;
     }
     
-    public Pracownik getSzef() {
-        return szef;
-    }
-
-    public void setSzef(Pracownik szef) {
-        this.szef = szef;
-        
-    }
+  
     
     
     

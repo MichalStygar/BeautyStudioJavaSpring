@@ -18,15 +18,16 @@
                 </button>
                     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                         <div class="navbar-nav ">
-                        <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link"  href="#">Pracownik</a>
-                        <a class="nav-item nav-link "  href="#">Gabinet</a>                       
-                        <a class="nav-item nav-link" href="#">Wyposażenie</a>
-                        <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Rezerwacja</a>
-                        <a class="nav-item nav-link"  href="/klient/printallklient">Klient</a>  
-                        <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
+                         <a class="nav-item nav-link " href="/home/salon">Strona główna <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('user')" href="/pracownik/printallpracownik">Pracownik</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/gabinet/printallgabinet">Gabinet</a>                       
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/wyposazenie/printallwyposazenie">Wyposażenie</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/GabinetZabieg/printallGabinetZabieg">Gabinet_zabieg</a>
+                        <a class="nav-item nav-link "  href="/zabieg/printallzabieg">Zabieg</a>
+                        <a class="nav-item nav-link"  href="/rezerwacja/printallrezerwacja">Rezerwacja</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/klient/printallklient">Klient</a>
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('user')" href="/klient/printallklient">Profil</a> 
+                        <a class="nav-item nav-link active" sec:authorize="hasAuthority('admin')" href="/konto/printallkonto">Konto</a>
                         
                         <form method="POST" th:action="@{/logout}">
                         <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />

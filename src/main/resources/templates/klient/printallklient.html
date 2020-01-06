@@ -18,15 +18,16 @@
                 </button>
                     <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
                         <div class="navbar-nav ">
-                        <a class="nav-item nav-link " href="/">Strona główna <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link"  href="#">Pracownik</a>
-                        <a class="nav-item nav-link "  href="#">Gabinet</a>                       
-                        <a class="nav-item nav-link" href="#">Wyposażenie</a>
-                        <a class="nav-item nav-link" href="#">Gabinet_zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Zabieg</a>
-                        <a class="nav-item nav-link"  href="#">Rezerwacja</a>
-                        <a class="nav-item nav-link"  href="/kient/printallklient">Klient</a>  
-                        <a class="nav-item nav-link"  href="/konto/printallkonto">Konto</a>
+                       <a class="nav-item nav-link " href="/home/salon">Strona główna <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('user')" href="/pracownik/printallpracownik">Pracownik</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/gabinet/printallgabinet">Gabinet</a>                       
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/wyposazenie/printallwyposazenie">Wyposażenie</a>
+                        <a class="nav-item nav-link " sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/GabinetZabieg/printallGabinetZabieg">Gabinet_zabieg</a>
+                        <a class="nav-item nav-link "  href="/zabieg/printallzabieg">Zabieg</a>
+                        <a class="nav-item nav-link"  href="/rezerwacja/printallrezerwacja">Rezerwacja</a>
+                        <a class="nav-item nav-link active" sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/klient/printallklient">Klient</a>
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('user')" href="/klient/printallklient">Profil</a> 
+                        <a class="nav-item nav-link" sec:authorize="hasAuthority('admin')" href="/konto/printallkonto">Konto</a>
                         
                         <form method="POST" th:action="@{/logout}">
                         <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />
@@ -44,7 +45,8 @@
         
         <div class="container mt-5 mb-2">                
             <h4>   <strong th:text="${header}"/>  </h4>
-            <a class="btn btn-primary text-white" href="/klient/addklient" role="button">Dodaj klienta</a>
+            <a class="btn btn-primary text-white" sec:authorize="hasAuthority('admin')" href="/klient/addklient" role="button">Dodaj klienta</a>
+            <a class="btn btn-primary text-white" sec:authorize="hasAuthority('user')" href="/klient/addklient" role="button">Uzupełnij konto</a>
                         
         </div>
               
@@ -62,8 +64,8 @@
                             <th>Imie</th>  
                             <th>Nazwisko</th>  
                             <th>Telefon</th>
-                            <th>Id_konta</th>
-                            <th>Opcje</th>
+                            <th sec:authorize="hasAuthority('admin')">Id_konta</th>
+                            <th sec:authorize="hasAuthority('admin') or hasAuthority('user')">Opcje</th>
                            
                             
                         </tr>
@@ -75,9 +77,9 @@
                             <td> <b  th:utext="${klient.imie}">...</b> </td>
                             <td> <b  th:utext="${klient.nazwisko}">...</b> </td>
                             <td> <b  th:utext="${klient.telefon}">...</b> </td>
-                            <td > <b  th:text="${klient.konto.id}">...</b> </td>
-                            <td><a class="btn btn-primary" th:href="@{/klient/printallklient/delete/} + ${klient.id}" role="button">Usuń</a>
-                            <a class="btn btn-primary" th:href="@{/klient/printallklient/edycja/} + ${klient.id}" role="button">Edytuj</a></td>
+                            <td sec:authorize="hasAuthority('admin')"> <b  th:text="${klient.konto.id}">...</b> </td>
+                            <td sec:authorize="hasAuthority('admin') or hasAuthority('user')"><a sec:authorize="hasAuthority('admin')" class="btn btn-primary" th:href="@{/klient/printallklient/delete/} + ${klient.id}" role="button">Usuń</a>
+                            <a sec:authorize="hasAuthority('admin') or hasAuthority('user')" class="btn btn-primary" th:href="@{/klient/printallklient/edycja/} + ${klient.id}" role="button">Edytuj</a></td>
                             
                             
                                 

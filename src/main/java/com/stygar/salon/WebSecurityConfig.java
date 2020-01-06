@@ -20,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                
                                             
                 .and().formLogin().loginPage("/login").permitAll()
             .defaultSuccessUrl("/home/salon",true).and().logout().logoutSuccessUrl("/login");

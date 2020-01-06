@@ -5,10 +5,14 @@ import com.stygar.salon.entities.Klient;
 import com.stygar.salon.entities.Konto;
 import com.stygar.salon.entities.Pracownik;
 import com.stygar.salon.entities.Rezerwacja;
+import com.stygar.salon.entities.Zabieg;
 import com.stygar.salon.repositories.GabinetZabiegRepository;
 import com.stygar.salon.repositories.KlientRepository;
+import com.stygar.salon.repositories.KontoRepository;
 import com.stygar.salon.repositories.PracownikRepository;
 import com.stygar.salon.repositories.RezerwacjaRepository;
+import com.stygar.salon.repositories.ZabiegRepository;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,12 @@ public class RezerwacjaController {
     @Autowired
     GabinetZabiegRepository gabinetZabiegRepository;
     
+    @Autowired
+    KontoRepository kontoRepository;
+    
+    @Autowired
+    ZabiegRepository zabiegRepository;
+    
     //DODAWANIE REZERWACJI
     @RequestMapping("/rezerwacja/addrezerwacja")
     public String addRezerwacja(Model model)
@@ -43,41 +53,73 @@ public class RezerwacjaController {
         ArrayList<Klient>  klient =  (ArrayList<Klient>) klientRepository.findAll();
         ArrayList<Pracownik>  pracownik =  (ArrayList<Pracownik>) pracownikRepository.findAll();
         ArrayList<GabinetZabieg>  gabinetZabieg =  (ArrayList<GabinetZabieg>) gabinetZabiegRepository.findAll();
+        ArrayList<Zabieg>  zabieg =  (ArrayList<Zabieg>) zabiegRepository.findAll();
         model.addAttribute("rezerwacja", rezerwacja);
         model.addAttribute("klientList", klient);
         model.addAttribute("pracownikList", pracownik);
         model.addAttribute("gabinetZabiegList", gabinetZabieg);
+        model.addAttribute("zabiegList", zabieg);
         return "/rezerwacja/addrezerwacja";  
     }
     
     @RequestMapping(value = "/rezerwacja/addrezerwacja", method = RequestMethod.POST)
-    public String addRezerwacja(@ModelAttribute("rezerwacja")Rezerwacja rezerwacja,Klient klient,Pracownik pracownik,GabinetZabieg gabinetZabieg,Model model)
+    public String addRezerwacja(@ModelAttribute("rezerwacja")Rezerwacja rezerwacja,Pracownik pracownik,Klient klient,GabinetZabieg gabinetZabieg,Zabieg zabieg,Principal principal,Model model)
     {
+        String login = principal.getName();
+        Konto id = kontoRepository.getByLogin(login);
+        
         
         String data = rezerwacja.getDataGodzinaRezerwacji();
         Long idkl = klient.getId();
         Long idprac = pracownik.getId();
         Long idgab = gabinetZabieg.getId();
-        
-        Klient klie = klientRepository.findById(idkl).get();
-        
-        
-        
+        Long idzab = zabieg.getId();
        
-        if(idprac==null)
+        
+        
+        if(id.getUprawnienia().equals("user"))
         {
+            Klient kli =klientRepository.getByKonto(id);
+           
+            if(idprac==null)
+            {
             
-            GabinetZabieg gabzab = gabinetZabiegRepository.findById(idgab).get();
-            rezerwacjaRepository.save(new Rezerwacja(klie,gabzab,data));
+            
+                GabinetZabieg gabzab = gabinetZabiegRepository.findByZabiegId(idzab);
+                
+                System.out.println("sdfds "+gabzab);
+                
+            rezerwacjaRepository.save(new Rezerwacja(kli,gabzab,data));
            
             
-        }else{
-            Pracownik prac = pracownikRepository.findById(idprac).get();
-            rezerwacjaRepository.save(new Rezerwacja(klie,prac,data));
-            
-          
+            }
+            else{
+                  
+                Pracownik prac = pracownikRepository.findById(idprac).get();
+                rezerwacjaRepository.save(new Rezerwacja(kli,prac,data));           
+            }
             
         }
+        else{
+            
+            Klient klie = klientRepository.findById(idkl).get();
+            
+            if(idprac==null)
+            {
+            
+                GabinetZabieg gabzab = gabinetZabiegRepository.findById(idgab).get();
+                rezerwacjaRepository.save(new Rezerwacja(klie,gabzab,data));
+           
+            
+            }
+            else{
+            Pracownik prac = pracownikRepository.findById(idprac).get();
+            rezerwacjaRepository.save(new Rezerwacja(klie,prac,data));           
+            }
+        }
+        
+       
+        
         
         return "redirect:/rezerwacja/printallrezerwacja";
         
@@ -89,12 +131,25 @@ public class RezerwacjaController {
 
     //WYSIWETLENIE WSZYSTKICH REZERWACJI
     @RequestMapping(value = "/rezerwacja/printallrezerwacja", method = RequestMethod.GET)
-    public String printAllRezerwacja(Model model)
+    public String printAllRezerwacja(Principal principal,Model model)
     {
-        //List<Klient> klientList =  klientService.getAll();
-        List<Rezerwacja> rezerwacjaList = rezerwacjaRepository.findAll();
-        model.addAttribute("header","Lista wszystkich rezerwacji:"); 
-        model.addAttribute("rezerwacjaList",rezerwacjaList); 
+        String login = principal.getName();
+        Konto id = kontoRepository.getByLogin(login);
+        Klient kli =klientRepository.getByKonto(id);
+        
+        if(id.getUprawnienia().equals("user"))
+        {
+             List<Rezerwacja> rezerwacjaList = rezerwacjaRepository.findByKlient(kli);
+             model.addAttribute("header","Lista wszystkich rezerwacji:"); 
+            model.addAttribute("rezerwacjaList",rezerwacjaList);
+        }else{
+           
+            List<Rezerwacja> rezerwacjaList = rezerwacjaRepository.findAll();
+            model.addAttribute("header","Lista wszystkich rezerwacji:"); 
+            model.addAttribute("rezerwacjaList",rezerwacjaList);
+        }
+        
+         
         
         return "/rezerwacja/printallrezerwacja";  
 

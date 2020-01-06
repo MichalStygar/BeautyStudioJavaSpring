@@ -5,6 +5,7 @@ import com.stygar.salon.entities.Klient;
 import com.stygar.salon.entities.Konto;
 import com.stygar.salon.repositories.KlientRepository;
 import com.stygar.salon.repositories.KontoRepository;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,18 +48,25 @@ public class KlientController {
     }
     
     @RequestMapping(value = "/klient/addklient", method = RequestMethod.POST)
-    public String addKlient(@ModelAttribute("klient")Klient klient,Konto konto,Model model)
+    public String addKlient(@ModelAttribute("klient")Klient klient,Konto konto,Principal principal,Model model)
     {
+        String login = principal.getName();
+        Konto idko = kontoRepository.getByLogin(login);
         
         String imie = klient.getImie();
         String nazwisko = klient.getNazwisko();
         String telefon = klient.getTelefon();
-        Long id = konto.getId();
         
-        Konto kont = kontoRepository.findById(id).get();
-       
+       if(idko.getUprawnienia().equals("user"))
+       {
+           klientRepository.save(new Klient(imie,nazwisko,telefon,idko));
+       }else{
+           Long id = konto.getId();       
+           Konto kont = kontoRepository.findById(id).get();
+           klientRepository.save(new Klient(imie,nazwisko,telefon,kont));
+       }
      
-        klientRepository.save(new Klient(imie,nazwisko,telefon,kont));
+        
         
         
         return "redirect:/klient/printallklient";
@@ -68,12 +76,25 @@ public class KlientController {
 
     //WYSIWETLENIE WSZYSTKICH KLIENTOW
     @RequestMapping(value = "/klient/printallklient", method = RequestMethod.GET)
-    public String printAllKlient(Model model)
+    public String printAllKlient(Principal principal,Model model)
     {
-        //List<Klient> klientList =  klientService.getAll();
-        List<Klient> klientList = klientRepository.findAll();
-        model.addAttribute("header","Lista wszystkich klientow:"); 
-        model.addAttribute("klientList",klientList); 
+        String login = principal.getName();
+        Konto id = kontoRepository.getByLogin(login);
+        //Klient kli =klientRepository.getByKonto(id);
+        
+       
+        
+        if(id.getUprawnienia().equals("user"))
+        {
+            List<Klient> klientList = klientRepository.findByKonto(id);
+            model.addAttribute("klientList",klientList);
+            model.addAttribute("header","Lista danych:");
+        }else{
+            List<Klient> klientList = klientRepository.findAll();        
+            model.addAttribute("klientList",klientList);
+            model.addAttribute("header","Lista wszystkich klientow:");
+        }
+        
         
         return "/klient/printallklient";  
 

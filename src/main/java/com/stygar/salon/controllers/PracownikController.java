@@ -52,19 +52,10 @@ public class PracownikController {
         String stanowisko = pracownik.getStanowisko();
         String data = pracownik.getDataZatrudnienia();
         Long id = konto.getId();
-        Long idp = pracownik.getId();
         Konto kont = kontoRepository.findById(id).get();
        
-        if(idp==null){                                  
-            pracownikRepository.save(new Pracownik(imie,nazwisko,adres,stanowisko,data,kont));
-            
-        }else{
-            Pracownik szef = pracownikRepository.findById(idp).get();                  
-            pracownikRepository.save(new Pracownik(imie,nazwisko,adres,stanowisko,data,kont,szef));
-            
-        }
-        
-        
+       
+        pracownikRepository.save(new Pracownik(imie,nazwisko,stanowisko,adres,data,kont));
         
         return "redirect:/pracownik/printallpracownik";
         
@@ -109,24 +100,14 @@ public class PracownikController {
         
         String imie = pracownik.getImie();
         String nazwisko = pracownik.getNazwisko();
-        String adres = pracownik.getAdres();
         String stanowisko = pracownik.getStanowisko();
+        String adres = pracownik.getAdres();
+        
         String data = pracownik.getDataZatrudnienia();
         Konto konto =pracownik.getKonto();
 
-        Pracownik idp = pracownik.getSzef();
         
-       
-        if(idp==null){
-    
-            pracownikRepository.save(new Pracownik(id,imie,nazwisko,adres,stanowisko,data,konto));
-            
-        }else{
-
-            pracownikRepository.save(new Pracownik(id,imie,nazwisko,adres,stanowisko,data,konto,idp));
-            
-        }
-       
+       pracownikRepository.save(new Pracownik(id,imie,nazwisko,stanowisko,adres,data,konto));
         return "redirect:/pracownik/printallpracownik";
         
     }
