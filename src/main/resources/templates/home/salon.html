@@ -42,8 +42,9 @@
                         <a class="nav-item nav-link" sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" href="/klient/printallklient">Klient</a>
                         <a class="nav-item nav-link" sec:authorize="hasAuthority('user')" href="/klient/printallklient">Profil</a> 
                         <a class="nav-item nav-link" sec:authorize="hasAuthority('admin')" href="/konto/printallkonto">Konto</a>
+                       
                         <form  method="POST" th:action="@{/logout}" >
-                        <input class="btn btn-primary text-white col-lg-12" type="submit" role="submit" value="Wyloguj" />
+                            <input class="btn btn-primary  text-white col-lg-12" type="submit" role="submit"  value="Wyloguj" />
                         </form>
                         
                         </div>

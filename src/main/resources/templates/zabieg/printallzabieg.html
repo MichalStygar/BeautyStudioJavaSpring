@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>        
-        <title>Lista Kont</title>               
+        <title>Lista zabiegow</title>               
     </head>
     
     <body >
@@ -58,7 +58,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered">          
                     <thead>
-                        <tr  class="active">
+                        <tr  class="table-primary">
                             <th sec:authorize="hasAuthority('admin')">Id</th>
                             <th sec:authorize="hasAuthority('user')">Numer</th>
                             <th>Nazwa</th>  
@@ -73,7 +73,7 @@
                         <tr th:each ="zabieg : ${zabiegList}">               
                             <td> <b  th:utext="${zabieg.id}">...</b> </td>
                             <td> <b  th:utext="${zabieg.nazwa}">...</b> </td>
-                            <td> <b  th:utext="${zabieg.cena}">...</b> </td>
+                            <td> <b  th:utext="${zabieg.cena}">...</b><b> zł</b> </td>
                             <td sec:authorize="hasAuthority('admin')"><a class="btn btn-primary" th:href="@{/zabieg/printallzabieg/delete/} + ${zabieg.id}" role="button">Usuń</a>
                             <a class="btn btn-primary" th:href="@{/zabieg/printallzabieg/edycja/} + ${zabieg.id}" role="button">Edytuj</a></td>
                             
@@ -91,5 +91,8 @@
 
 
     </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </html>
 
