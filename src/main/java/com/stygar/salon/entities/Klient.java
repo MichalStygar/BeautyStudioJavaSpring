@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 
 
 @Entity
- //@Check(constraints = "imie in('^[A-Za-z]*$')")
 public class Klient {
     @Id
     @Column(name="ID_klienta")

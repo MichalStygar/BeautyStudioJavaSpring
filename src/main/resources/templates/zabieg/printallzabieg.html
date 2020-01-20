@@ -59,11 +59,11 @@
                 <table class="table table-bordered">          
                     <thead>
                         <tr  class="table-primary">
-                            <th sec:authorize="hasAuthority('admin')">Id</th>
+                            <th sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')">Id</th>
                             <th sec:authorize="hasAuthority('user')">Numer</th>
                             <th>Nazwa</th>  
                             <th>Cena</th>   
-                            <th sec:authorize="hasAuthority('admin')">Opcje</th>
+                            <th sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')">Opcje</th>
                            
                             
                         </tr>
@@ -74,8 +74,8 @@
                             <td> <b  th:utext="${zabieg.id}">...</b> </td>
                             <td> <b  th:utext="${zabieg.nazwa}">...</b> </td>
                             <td> <b  th:utext="${zabieg.cena}">...</b><b> zł</b> </td>
-                            <td sec:authorize="hasAuthority('admin')"><a class="btn btn-primary" th:href="@{/zabieg/printallzabieg/delete/} + ${zabieg.id}" role="button">Usuń</a>
-                            <a class="btn btn-primary" th:href="@{/zabieg/printallzabieg/edycja/} + ${zabieg.id}" role="button">Edytuj</a></td>
+                            <td sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')"><a class="btn btn-primary" th:href="@{/zabieg/printallzabieg/delete/} + ${zabieg.id}" role="button">Usuń</a>
+                            <a sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" class="btn btn-primary" th:href="@{/zabieg/printallzabieg/edycja/} + ${zabieg.id}" role="button">Edytuj</a></td>
                             
                             
                                 

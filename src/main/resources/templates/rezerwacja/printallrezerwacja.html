@@ -73,7 +73,7 @@
                              <td sec:authorize="hasAuthority('user')"> <b     th:each ="gabinetZabieg : ${rezerwacja.gabinetZabieg}" th:text="${gabinetZabieg.zabieg.nazwa}">...</b> </td>
                             <td > <b  th:text="${rezerwacja.dataGodzinaRezerwacji}" >...</b> </td>
                             <td><a class="btn btn-primary" th:href="@{/rezerwacja/printallrezerwacja/delete/} + ${rezerwacja.id}" role="button">Usuń</a>
-                            <a class="btn btn-primary" th:href="@{/rezerwacja/printallrezerwacja/edycja/} + ${rezerwacja.id}" role="button">Edytuj</a></td>
+                            <a sec:authorize="hasAuthority('admin') or hasAuthority('pracownik')" class="btn btn-primary" th:href="@{/rezerwacja/printallrezerwacja/edycja/} + ${rezerwacja.id}" role="button">Edytuj</a></td>
                             
                         </tr>
                     </tbody>          
